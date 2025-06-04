@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>HSP를 위한 힐링 컨텐츠</title>
+    <style>
+        body { font-family: 'MapoGoldenPier', sans-serif; background: #f8f8f8 url('recommend.gif') no-repeat center center fixed; background-size: cover; color: #007A5D; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: rgba(255,255,255,0.85);
+            color: #007A5D;
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 1.2rem 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: bold;
+        } 
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem 2rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        .movie-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1rem 1rem 1rem;
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .movie-item:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+        }
+        .movie-img {
+            width: 120px;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.1rem;
+            background: #e0e0e0;
+        }
+        .movie-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #007A5D;
+            text-align: center;
+        }
+        .back-btn { 
+            display: block; margin: 2rem auto 0 auto; background: #007A5D; color: #fff; padding: 0.7rem 1.2rem; border-radius: 30px; text-decoration: none; font-weight: bold; text-align: center; min-width: 120px; }
+        .back-btn:hover { background: #005A47; }
+        @media (max-width: 900px) {
+            .movie-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .movie-grid { grid-template-columns: 1fr; }
+            .container { padding: 2rem 0.5rem; }
+        }
+        .desc-box {
+            background: rgba(255,255,255,0.85);
+            color: #007A5D;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 1.2rem 1.5rem;
+            margin: 0 auto 2.5rem auto;
+            max-width: 500px;
+            text-align: center;
+            font-size: 1.08rem;
+        }
+        .movie-list-box {
+            background: rgba(255,255,255,0.92);
+            border-radius: 24px;
+            box-shadow: 0 0 32px 0 rgba(255,255,255,0.7), 0 0 16px 0 rgba(255,255,255,0.4), 0 4px 24px rgba(0,0,0,0.10);
+            padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+            margin: 0 auto 2.5rem auto;
+            max-width: 1200px;
+        }
+        /* 팝업 카드 스타일 */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .popup-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            color: #007A5D;
+            padding: 2.2rem 2rem 2rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1001;
+            text-align: center;
+            line-height: 1.7;
+            font-size: 1.08rem;
+        }
+        .popup-content.show,
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            background: transparent;
+            border: none;
+            color: #007A5D;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .popup-img {
+            width: 320px;
+            height: 460px;
+            object-fit: cover;
+            border-radius: 18px;
+            background: #e0e0e0;
+            margin: 0 auto 1.7rem auto;
+            display: none;
+        }
+        @media (max-width: 900px) {
+            .movie-grid { grid-template-columns: repeat(2, 1fr); }
+            .popup-img { width: 180px; height: 260px; }
+        }
+        @media (max-width: 600px) {
+            .movie-grid { grid-template-columns: 1fr; }
+            .container { padding: 2rem 0.5rem; }
+            .popup-img { width: 120px; height: 170px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="desc-box">
+            각 작품을 클릭하면 자세한 정보를 확인할 수 있습니다.
+        </div>
+        <div class="movie-list-box">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #007A5D;">영화</h2>
+            <div class="movie-grid">
+                <div class="movie-item"><img src="insideout.webp" alt="인사이드 아웃" class="movie-img" /><div class="movie-title">인사이드 아웃</div></div>
+                <div class="movie-item"><img src="thecatreturns.webp" alt="고양이의 보은" class="movie-img" /><div class="movie-title">고양이의 보은</div></div>
+                <div class="movie-item"><img src="abouttime.webp" alt="어바웃 타임" class="movie-img" /><div class="movie-title">어바웃 타임</div></div>
+                <div class="movie-item"><img src="romanholiday.webp" alt="로마의 휴일" class="movie-img" /><div class="movie-title">로마의 휴일</div></div>
+                <div class="movie-item"><img src="3idioits.webp" alt="세 얼간이" class="movie-img" /><div class="movie-title">세 얼간이</div></div>
+                <div class="movie-item"><img src="ourlittlesister.webp" alt="바닷마을 다이어리" class="movie-img" /><div class="movie-title">바닷마을 다이어리</div></div>
+                <div class="movie-item"><img src="soul.webp" alt="소울" class="movie-img" /><div class="movie-title">소울</div></div>
+                <div class="movie-item"><img src="up.webp" alt="업" class="movie-img" /><div class="movie-title">업</div></div>
+                <div class="movie-item"><img src="minari.webp" alt="미나리" class="movie-img" /><div class="movie-title">미나리</div></div>
+                <div class="movie-item"><img src="littleforest.webp" alt="리틀 포레스트" class="movie-img" /><div class="movie-title">리틀 포레스트</div></div>
+                <div class="movie-item"><img src="Ratatouille.webp" alt="라따뚜이" class="movie-img" /><div class="movie-title">라따뚜이</div></div>
+                <div class="movie-item"><img src="kiki.jpg" alt="마녀 배달부 키키" class="movie-img" /><div class="movie-title">마녀 배달부 키키</div></div>
+            </div>
+        </div>
+        <div class="movie-list-box" style="margin-top: 3rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #007A5D;">웹툰</h2>
+            <div class="movie-grid">
+                <div class="movie-item"><img src="welcome.jpeg" alt="어서와" class="movie-img" /><div class="movie-title">어서와</div></div>
+                <div class="movie-item"><img src="wings.webp" alt="일상날개짓" class="movie-img" /><div class="movie-title">일상날개짓</div></div>
+                <div class="movie-item"><img src="homeless.webp" alt="집이 없어" class="movie-img" /><div class="movie-title">집이 없어</div></div>
+                <div class="movie-item"><img src="welcome305.webp" alt="어서오세요 305호에" class="movie-img" /><div class="movie-title">어서오세요 305호에</div></div>
+                <div class="movie-item"><img src="asurai.webp" alt="아스라이" class="movie-img" /><div class="movie-title">아스라이</div></div>
+                <div class="movie-item"><img src="ho.jpg" alt="ho!" class="movie-img" /><div class="movie-title">ho!</div></div>
+                <div class="movie-item"><img src="recycle.webp" alt="연민의 굴레" class="movie-img" /><div class="movie-title">연민의 굴레</div></div>
+                <div class="movie-item"><img src="umbi.jpg" alt="움비처럼" class="movie-img" /><div class="movie-title">움비처럼</div></div>
+            </div>
+        </div>
+        <div class="movie-list-box" style="margin-top: 3rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #007A5D;">애니메이션</h2>
+            <div class="movie-grid">
+                <div class="movie-item"><img src="cotaro.webp" alt="코타로는 1인 가구" class="movie-img" /><div class="movie-title">코타로는 1인 가구</div></div>
+                <div class="movie-item"><img src="skipand.jpg" alt="스킵과 로퍼" class="movie-img" /><div class="movie-title">스킵과 로퍼</div></div>
+                <div class="movie-item"><img src="barakamon.webp" alt="바라카몬" class="movie-img" /><div class="movie-title">바라카몬</div></div>
+                <div class="movie-item"><img src="mushishi.webp" alt="충사" class="movie-img" /><div class="movie-title">충사</div></div>
+                <div class="movie-item"><img src="hyouka.webp" alt="빙과" class="movie-img" /><div class="movie-title">빙과</div></div>
+                <div class="movie-item"><img src="kimitiboku.webp" alt="너와 나" class="movie-img" /><div class="movie-title">너와 나</div></div>
+                <div class="movie-item"><img src="silverspoon.jpg" alt="은수저" class="movie-img" /><div class="movie-title">은수저</div></div>
+                <div class="movie-item"><img src="rabbit.webp" alt="토끼 드롭스" class="movie-img" /><div class="movie-title">토끼 드롭스</div></div>
+            </div>
+        </div>
+        <a href="guideline.html" class="back-btn">돌아가기</a>
+    </div>
+    <!-- 팝업 카드/오버레이 -->
+    <div id="popupOverlay" class="popup-overlay"></div>
+    <div id="popupContent" class="popup-content">
+        <button id="popupClose" class="popup-close">×</button>
+        <img id="popupImg" class="popup-img" src="" alt="" style="display:block; margin:0 auto 1.2rem auto; width:140px; height:200px; object-fit:cover; border-radius:12px; background:#e0e0e0;" />
+        <div id="popupText"></div>
+    </div>
+    <script>
+    const movieData = {
+        '인사이드 아웃': {
+            desc: "(2015)<br>감독: 피트 닥터<br>제작: Pixar Animation Studios<br>장르: 애니메이션, 가족, 드라마<br>상영시간: 95분<br>관람 등급: 전체 관람가<br><br>11살 소녀 라일리의 머릿속에서 벌어지는 다섯 감정들의 모험을 통해, 감정의 복잡성과 '슬픔'의 가치에 대해 알려주는 픽사 애니메이션.",
+            img: 'insideout.webp'
+        },
+        '고양이의 보은': {
+            desc: '(2002)<br>감독: 모리타 히로유키<br>제작: 스튜디오 지브리<br>장르: 애니메이션, 판타지, 모험<br>상영시간: 75분<br>관람 등급: 전체 관람가<br><br>고양이를 구한 평범한 소녀가 고양이 왕국으로 초대받으며 펼쳐지는 마법 같은 모험.',
+            img: 'thecatreturns.webp'},
+        '어바웃 타임': {
+            desc: '(2013)<br>감독: 리처드 커티스<br>제작: 워킹 타이틀 필름즈<br>장르: 드라마, 로맨스<br>상영시간: 123분<br>관람 등급: 15세 이상 관람가<br>수상: 제86회 아카데미 장편 드라마상 수상<br><br>시간을 되돌릴 수 있다면 무엇을 바꿀 수 있을까? 소중한 일상과 사랑, 가족의 의미를 다시 생각하게 해주는 영화.',
+            img: 'abouttime.webp'
+        },
+        '로마의 휴일': {
+            desc: '(1953)<br>감독: 윌리엄 와일러<br>제작: 파라마운트 픽처스<br>장르: 고전 명작 로맨스<br>상영시간: 118분<br>관람 등급: 전체 관람가<br><br>왕실을 탈출한 공주와 평범한 기자가 보내는 단 하루의 로맨틱한 로마 여행.',
+            img: 'romanholiday.webp'
+        },
+        '세 얼간이': {
+            desc: '(2009)<br>감독:라지쿠마르 히라니<br>제작: 비두 비노드 초프라<br>장르: 코미디, 드라마<br>상영시간: 170분<br>관람 등급: 12세 이상 관람가<br><br>인도 학생들의 우정과 성장, 그리고 진정한 행복의 의미를 유쾌하게 그려낸 감동 코미디.',
+            img: '3idioits.webp'
+        },
+        '바닷마을 다이어리': {
+            desc: '(2015)<br>감독: 고레에다 히로카즈<br>제작: 겐코샤, 도호<br>장르: 드라마, 가족<br>상영시간: 128분<br>관람 등급: 전체 관람가<br><br>세 자매와 이복 여동생이 바닷가 마을에서 만들어가는 새로운 가족의 시간.',
+            img: 'ourlittlesister.webp'
+        },
+        '소울': {
+            desc: '(2020)<br>감독: 피트 닥터<br>제작: 디즈니·픽사<br>장르: 애니메이션, 드라마, 판타지<br>상영시간: 100분<br>관람 등급: 전체 관람가<br><br>뜻밖의 사고로 영혼 세계에 가게 된 재즈 음악가가 삶의 진짜 의미를 깨닫게 되는 여정.',
+            img: 'soul.webp'
+        },
+        '업': {
+            desc: '(2009)<br>감독: 피트 닥터<br>제작: 디즈니·픽사<br>장르: 애니메이션, 드라마, 판타지<br>상영시간: 96분<br>관람 등급: 전체 관람가<br><br>하늘을 나는 집을 탄 노인과 소년의 예측불가한<br>모험이 시작된다.',
+            img: 'up.webp'
+        },
+        '미나리': {
+            desc: '(2020)<br>감독: 리 아이작 정<br>제작: A24<br>장르: 드라마, 가족<br>상영시간: 115분<br>관람 등급: 12세 이상 관람가<br><br>이민 가족의 삶과 희망, 그리고 뿌리에 대한 이야기를 섬세하게 그려낸 영화.',
+            img: 'minari.webp'
+        },
+        '리틀 포레스트': {
+            desc: '(2018)<br>감독: 임순례<br>제작: 영화사 수박<br>장르: 드라마<br>상영시간: 103분<br>관람 등급: 전체 관람가<br><br>도시를 떠난 여성이 자연 속 사계절과 요리를 통해 삶을 재정비하는 이야기. 자연 속에서의 치유와 성장, 소박한 행복을 담은 영화.',
+            img: 'littleforest.webp'
+        },
+        '라따뚜이': {
+            desc: '(2007)<br>감독: 브래드 버드<br>제작: 디즈니·픽사<br>장르: 애니메이션, 코미디, 드라마<br>상영시간: 111분<br>관람 등급: 전체 관람가<br><br>요리를 사랑하는 쥐의 꿈과 도전을 그린 픽사 애니메이션.',
+            img: 'Ratatouille.webp'
+        },
+        '마녀 배달부 키키': {
+            desc: '(2005)<br>감독: 미야자키 하야오<br>제작: 스튜디오 지브리<br>장르: 애니메이션, 성장, 판타지<br>상영시간: 102분<br>관람 등급: 전체 관람가<br><br>독립을 시작한 마녀 키키의 성장과 자립,<br>그리고 진짜 마법의 의미.',
+            img: 'kiki.jpg'
+        },
+        '어서와': {
+            desc: '(2009~2010)<br>작가: 고아라<br>장르: 로맨스<br>플랫폼: 네이버 웹툰<br><br>성냥갑처럼 늘어서 있는 삭막한 자취촌의 평범한 대학생 솔아. 신비한 고양이 홍조의 등장과 함께 솔아의 단조로웠던 삶이<br>바뀌기 시작한다. 어딘가 수상한 우리 고양이 홍조, 고양이 홍조의 비밀은 과연 무엇일까?.',
+            img: 'welcome.jpeg'
+        },
+        '일상날개짓': {
+            desc: '(2008~2013)<br>작가: 나유진<br>장르: 육아, 일상, 치유<br>플랫폼: 네이버 웹툰<br><br>천진하고 사랑스러운 아기새 가람이와 싱글맘이지만 누구보다 씩씩하고 유쾌하게 하루를 살아가는<br>엄마 꼬꼬댁씨의 일상을 담은 웹툰',
+            img: 'wings.webp'
+        },
+        '집이 없어': {
+            desc: '(2018~2024)<br>작가: 와난<br>장르: 일상, 드라마, 학원, 성장<br>플랫폼: 네이버 웹툰<br><br>집을 버리고 뛰쳐나간 고해준,<br>집 없이 텐트 생활하는 문제아 백은영.<br>악연으로 만난 두 사람은 버려진 옛날 기숙사에서<br>함께 살게 되는데...기숙사도 서로도 싫지만 돌아갈 곳 없는 두 사람의 힘든 성장 이야기',
+            img: 'homeless.webp'
+        },
+        '어서오세요 305호에': {
+            desc: '(2008~2011)<br>작가: 와난<br>장르: 일상, 개그, 드라마, 퀴어<br>플랫폼: 네이버 웹툰<br><br>자취의 로망을 간직한 채 305호에 입주한 평범한 남자 김정현이, 동성애자인 룸메이트 김호모와 동거하면서 벌어지는 민감하고 민망한 일상 이야기.<br>동성애에 대한 편견을 재미있게 무너뜨려주는 웹툰',
+            img: 'welcome305.webp'
+        },
+        '아스라이': {
+            desc: '(2015~2016)<br>작가: 예환<br>장르: 힐링, 가족<br>플랫폼: 네이버 웹툰<br><br>곁에 있을 땐 항상 잊고 있던 존재, 엄마<br>하지만 이젠 내 곁에 없는 존재, 엄마<br>치매로 인해 엄마를 잃고 비로소 엄마의 사랑을 알게 된 치매 요양사를 그린 웹툰',
+            img: 'asurai.webp'
+        },
+        'ho!': {
+            desc: '(2014~2015)<br>작가: 억수씨<br>장르: 드라마, 로맨스<br>플랫폼: 네이버 웹툰<br><br>대학생이 되어 지방에서 서울로 올라온 김원이. 학원 강사로 알바를 시작하는데, 첫 학생이 청각장애인인 초등학교 6학년 Ho다.<br>학원에서 만난 두 사람이 성장해나가는 이야기를 그린 웹툰',
+            img: 'ho.jpg'
+        },
+        '연민의 굴레': {
+            desc: '(2009~2011)<br>작가: 재활용<br>장르: 일상, 코믹<br>플랫폼: 네이버 웹툰<br><br>삐딱한 모범생 안민. 어설픈 반항아 차련.<br>7년째 이웃사촌인 두 사람.<br>세상이 지루하기만 한 그들과 함께 조금씩 굴러가는<br>수상한 하루하루..',
+            img: 'recycle.webp'
+        },
+        '움비처럼': {
+            desc: '(2011~2013)<br>작가: 권혁주<br>장르: 옴니버스, 감성, 모험<br>플랫폼: 네이버 웹툰<br><br>바쁜 일상 속에서 잠시 자신을 돌아보게 하는 만화, 느림의 즐거움을 추구하는 마음정화 웹툰.',
+            img: 'umbi.jpg'
+        },
+        '코타로는 1인 가구': {
+            desc: '(2022)<br>원작: 츠무라 마미<br>제작사: 라이덴 필름<br>총 10화<br>장르: 일상, 드라마, 코미디<br><br>사극 말투를 쓰는 4살 꼬마 코타로가 혼자 원룸에 이사 오면서 벌어지는 이웃들과의 따뜻한 이야기.',
+            img: 'cotaro.webp'
+        },
+        '스킵과 로퍼': {
+            desc: '(2023)<br>원작: 타카마츠 미사키<br>제작사: P.A.WORKS<br>총 12화<br>장르: 일상, 코미디, 청춘<br><br>시골에서 도쿄로 상경한 소녀가 고등학교 생활에 적응하며 친구들과 성장해가는 이야기.',
+            img: 'skipand.jpg'
+        },
+        '바라카몬': {
+            desc: '(2014)<br>원작: 요시노 사츠키<br>제작사: 키네마 시트러스<br>총 12화<br>장르: 일상, 코미디, 성장<br><br>서예에 관해서는 그 무엇도 용납하지 않는 노력가 서예사 한다 세이슈가 섬마을 아이들을 만나며 점차 성장하는 한다와 아이들의 성장 스토리',
+            img: 'barakamon.webp'
+        },
+        '충사': {
+            desc: '(2005~2006)<br>원작: 우루시바라 유키<br>제작사: 아트랜드<br>총 26화<br>장르: 판타지, 드라마, 미스터리<br><br>이형의 존재 벌레와 인간 사이를 중재하는 충사 깅코의 몽환적인 여정을 그린 옴니버스 애니메이션.',
+            img: 'mushishi.webp'
+        },
+        '빙과': {
+            desc: '(2012)<br>원작: 요네자와 호노부의 소설 『고전부 시리즈』<br>제작사: 교토 애니메이션<br>총 22화 + OVA<br>장르: 미스터리, 청춘, 일상<br><br>고등학교 고전부에 가입한 학생들이 일상 속 미스터리를 해결하는 추리 애니메이션.',
+            img: 'hyouka.webp'
+        },
+        '너와 나': {
+            desc: '(2011~2012)<br>원작: 홋타 키이치<br>제작사: J.C.STAFF<br>총 24화<br>장르: 일상, 코미디, 청춘<br><br>어릴 적부터 친구인 다섯 소년의 평범하고 따뜻한 고등학교 생활을 그린 이야기.',
+            img: 'kimitiboku.webp'
+        },
+        '은수저': {
+            desc: '(2013~2014)<br>원작: 아라카와 히로무<br>제작사: A-1 Pictures<br>총 24화<br>장르: 일상, 드라마, 성장<br><br>도시 출신 고등학생이 농업고등학교에 입학하여 농업과 생명의 소중함을 배우며 성장하는 이야기.',
+            img: 'silverspoon.jpg'
+        },
+        '토끼 드롭스': {
+            desc: '(2011)<br>원작: 우니타 유미<br>제작사: 프로덕션 I.G<br>총 11화<br>장르: 일상, 드라마, 가족<br><br>30대 독신 남성이 외할아버지의 숨겨진 딸을 맡아 키우며 가족의 의미를 찾아가는 이야기.',
+            img: 'rabbit.webp'
+        }
+    };
+
+    // DOM 요소 가져오기
+    const movieItems = document.querySelectorAll('.movie-item');
+    const popupContent = document.getElementById('popupContent');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupText = document.getElementById('popupText');
+    const popupImg = document.getElementById('popupImg');
+    const popupClose = document.getElementById('popupClose');
+
+    // 모든 아이템에 클릭 이벤트 추가
+    movieItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const title = item.querySelector('.movie-title').textContent.trim();
+            const data = movieData[title];
+            
+            if (data) {
+                popupText.innerHTML = data.desc;
+                popupImg.src = data.img;
+                popupImg.alt = title;
+                popupImg.style.display = 'block';
+            } else {
+                popupText.textContent = '설명이 준비중입니다.';
+                popupImg.style.display = 'none';
+            }
+            
+            popupContent.classList.add('show');
+            popupOverlay.classList.add('show');
+        });
+    });
+
+    // 팝업 닫기 버튼 이벤트
+    popupClose.addEventListener('click', () => {
+        popupContent.classList.remove('show');
+        popupOverlay.classList.remove('show');
+    });
+
+    // 오버레이 클릭시 팝업 닫기
+    popupOverlay.addEventListener('click', () => {
+        popupContent.classList.remove('show');
+        popupOverlay.classList.remove('show');
+    });
+    </script>
+</body>
+</html> 
