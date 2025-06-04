@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSP를 위한 지침서</title>
+    <link href="main.html" rel="prev">
+    <style>
+        @font-face {
+            font-family: 'MapoGoldenPier';
+            src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            background: #f8f8f8;
+            color: #007A5D;
+            font-family: 'MapoGoldenPier', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('guideline.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        .overlay-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('graphic.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 0 32px 0 rgba(255,255,255,0.7), 0 0 8px 0 rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.08);
+            padding: 4rem 3rem 3rem 3rem;
+            margin-top: 15rem;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: #007A5D;
+        }
+        .guide-text {
+            text-align: center;
+            font-size: 1rem;
+            color: #007A5D;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        ul.guidelines {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            font-size: 1.2rem;
+            color: #005A47;
+        }
+        ul.guidelines li {
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+        }
+        .back-btn {
+            display: block;
+            margin: 3rem auto 0 auto;
+            background: #007A5D;
+            color: #fff;
+            font-family: 'MapoGoldenPier', sans-serif;
+            font-size: 1.1rem;
+            padding: 0.8rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: center;
+            width: fit-content;
+            transition: background 0.2s, color 0.2s, opacity 0.3s;
+            opacity: 0.95;
+        }
+        .back-btn:hover {
+            background: #005A47;
+            color: #fff;
+            opacity: 1;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            z-index: 100;
+            padding: 1.3rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand {
+            color: #007A5D;
+            font-size: 1.2rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-decoration: none;
+            margin-left: 3rem;
+            font-weight: bold;
+            padding: 0;
+            border-radius: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar-brand:hover {
+            background: #007A5D;
+            color: #fff;
+        }
+        .navbar ul {
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0 3rem 0 0;
+        }
+        .navbar a {
+            color: #007A5D;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar a:hover {
+            background: #007A5D;
+            color: #fff;
+        }
+        .audio-fixed {
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 0.2rem 0.5rem;
+        }
+        .audio-unmute-btn {
+            position: absolute;
+            right: 2rem;
+            top: 6rem;
+            background: #fff;
+            color: #007A5D;
+            border: 1.5px solid #007A5D;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            display: none;
+        }
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 5rem 0 3rem 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .popup-card {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #0c8663;
+            border-radius: 0px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1), 0 0 32px 0 rgba(224,242,241,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 2rem;
+            font-size: 1rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-align: center;
+            color: #ffffff;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            box-sizing: border-box;
+        }
+        .popup-card.viewed {
+            background: #e0e0e0;
+            color: #007A5D;
+            border: 2px solid #0c8663;
+            opacity: 0.7;
+        }
+        .popup-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 0 48px 0 rgba(224,242,241,0.8);
+            background: #ffffff;
+            color: #3ccb88;
+        }
+        .popup-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 800px;
+  background: #007A5D;
+  color: #fff;
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1001;
+  text-align: left;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.popup-content.show,
+.popup-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.popup-card {
+  cursor: pointer;
+}
+
+.footer {
+    background: rgba(0, 122, 93, 0.95);
+    color: #fff;
+    padding: 3rem 0;
+    margin-top: 8rem;
+    text-align: center;
+    font-family: 'MapoGoldenPier', sans-serif;
+}
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+.footer-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+.footer-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+.footer-copyright {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 2rem;
+}
+.recommend-section {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+  width: 100%;
+}
+.recommend-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 32px 0 rgba(255,255,255,0.7), 0 0 8px 0 rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.08);
+  padding: 3rem 2rem 3rem 2rem;
+  position: relative;
+}
+.recommend-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #007A5D;
+  margin-bottom: 2.5rem;
+  font-family: 'MapoGoldenPier', sans-serif;
+}
+.recommend-list {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+.recommend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 180px;
+  background: #f8f8f8;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  text-decoration: none;
+  color: #007A5D;
+  font-family: 'MapoGoldenPier', sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.recommend-item:hover {
+  background: #e0f7ef;
+  color: #0c8663;
+  transform: translateY(-8px) scale(1.04);
+}
+.recommend-icon {
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+}
+.recommend-label {
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 900px) {
+  .recommend-list {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .recommend-item {
+    width: 100%;
+    height: 120px;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="overlay-image"></div>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">예민한 우리를 위하여</a>
+        <ul>
+            <li><a href="index.html#start">시작</a></li>
+            <li><a href="main.html#step2">기본 설명</a></li>
+            <li><a href="guideline.html">지침서</a></li>
+            <li><a href="#step4">마지막</a></li>
+        </ul>
+    </nav>
+<section>
+    <div class="container">
+        <audio src="windsound.mp3" autoplay loop controls muted class="audio-fixed" id="bg-audio"></audio>
+        <button class="audio-unmute-btn" id="audio-unmute-btn">사운드 켜기</button>
+        <h1>HSP를 위한 지침서</h1>
+        <div class="guide-text">각 항목을 클릭해보세요</div>
+        <div class="flip-grid">
+            <div class="popup-card" data-answer="외향형처럼 행동해볼 것.<br>에너지의 흐름을 의식적으로 외부로 돌려 발산해야 한다.<br>동굴로 들어가고 싶은 충동이 들겠지만, 오히려 이럴 때일수록 리프레시가 필요하다는 걸 스스로에게 알려줘야 한다.<br>내면의 저수지를 '물갈이'하듯 환기시켜야 한다. 혼자 생각하고 혼자 결론짓는 습관과는 이별할 것.<br>외향적으로 할 수 있는 활동들을 리스트업한 뒤, 부정적인 기운이 느껴질 때 하나씩 실천해보자.">
+                <div>1.<br>내향적인 HSP라면?</div>
+            </div>
+            <div class="popup-card" data-answer="자신의 성향을 정확히 인식해야 한다.<br>풍부한 감정과 외향성을 동시에 지닌 HSP는 주변 환경을 끊임없이 정리·정돈할 필요가 있다.<br>통제할 수 없는 인간관계는 과감히 덜어내고, 스스로 조율 가능한 경험에 집중해야 한다.<br>예술·문화 같은 깊이 있는 취미를 즐기되, 주기적으로 혼자만의 시간을 반드시 가져야 한다.">
+                <div>2.<br> 외향적인 HSP라면?</div>
+            </div>
+            <div class="popup-card" data-answer="우호적인 환경에서 자극을 줄이는 삶을 선택하자.<br>외부 자극이 줄어든 환경이야말로 HSP가 가장 편안해지는 곳이다.<br>인간관계뿐 아니라, 커리어·명예·돈 등 자아실현의 욕망도 적정선에서 내려놓자.<br>모두가 같은 방향을 향해 달려갈 필요는 없다. 자신의 감도와 속도를 존중해도 된다.">
+                <div>3.<br>둔감해지고 싶다면?</div>
+            </div>
+            <div class="popup-card" data-answer="자율신경계의 균형이 무너진 신호일 수 있다.<br>신경과 또는 정신건강의학과에서 상담이나 검사를 받아보는 것도 좋은 선택이다.<br>카페인과 과당 섭취를 줄이고, 자극적인 콘텐츠는 멀리하자.<br>일상 속 자극을 최소화하는 것이 감정의 안정에 도움이 된다.">
+                <div>4.<br>감정 제어가 부쩍 어려워졌다면?</div>
+            </div>
+            <div class="popup-card" data-answer="자신이 HSP임을 자각한 사람.<br>서로의 감정 선을 이해할 줄 아는 사람과의 관계가 가장 건강하다.<br>그러나, 동업이나 협업이 필요한 경우엔 이야기가 다르다.<br>긍정적이고 무던한 사람, 쉽게 상처받지 않는 둔감한 타입과 함께할 때 더 안정적인 팀워크가 만들어질 수 있다.<br>감정적 충돌을 흡수해줄 수 있는 사람이 곁에 있으면, 둘의 총 에너지 용량은 더 강해진다.">
+                <div>5.<br>어떤 사람을 만나야 할까?</div>
+            </div>
+            <div class="popup-card" data-answer="진짜 모습을 천천히 보여줄 것.<br>긴 시간 함께할 관계라면 나를 조금씩 드러내는 것이 중요하다.<br>갑작스럽게 예민한 면모를 드러내기보다는, SNS에 관련 인용구를 올리거나 HSP 테스트를 자연스럽게 공유하며 상대에게 힌트를 주자.<br>'나'라는 사람의 감정선에 대해 부담 없이 다가올 수 있도록 유도하는 것이다.">
+                <div>6.<br>'진짜 나'와 '순한 곰'<br>페르소나<br>사이 괴리가 걱정된다면?</div>
+            </div>
+            <div class="popup-card" data-answer="가장 좋은 방법은 '그 자리에서 벗어나는 것'.<br>화장실을 가든, 산책을 나가든, 단 5분이라도 자극의 밀도가 높은 공간을 빠르게 이탈해야 한다.<br>그럼에도 생각이 머릿속을 맴돈다면, 억지로 지우려 하지 말자.<br>대신 관점을 1인칭에서 3인칭으로 전환해 심리적 거리를 두자. '내가' 아닌, '그 사람이 겪는 일'처럼 바라보는 연습이 필요하다.">
+                <div>7.<br>스트레스<br>시뮬레이션에서 벗어나려면?</div>
+            </div>
+            <div class="popup-card" data-answer="기대치를 낮추고, 눈앞의 현실에 집중한다.<br>무언가를 성취하고 싶은 마음도 좋지만, 스스로에 대한 기대를 줄이는 연습이 먼저다.<br>할 일과 목표를 최소화하고 '지금, 여기'의 나에게 집중하자.<br>그리고 아주 작고 사소한 일이라도 매일 하나씩 해보는 것이다.<br>조금씩 이상과 현실의 간극이 줄어들 것이다.">
+                <div>8.<br>이상과 현실의 괴리가 심하다면?</div>
+            </div>
+            <div class="popup-card" data-answer="인간관계에서는 '거리두기'가 핵심이다.<br>→특정 대상이 부정적인 감정의 원인이라면, 일단 물리적·심리적으로 거리를 두자.<br>시간이 지나 감정이 잦아든 뒤, 다시 관계 전선에 복귀하면 된다.<br>→개인적인 감정에는 '객관화'가 필요하다.<br>혼잣말을 3인칭 시점으로 해보자. "나는 왜 이래" 대신 "그는 지금 힘들어하고 있다"는 식으로 말하자.>
+                <div>9.<br>감정을 흘려보내는 방법은?</div>
+            </div>
+            <div class="popup-card" data-answer="'감사노트'와 '못된 짓 일지'를 활용하자.<br>'감사노트에는 '내가 감사했던 일'과 '감사를 받은 순간'을 나누어 기록한다.<br>텍스트뿐 아니라 사진이나 메시지를 함께 남기면 효과가 더 커진다.<br>반대로, '내가 저질렀던 못된 짓'을 환경별로 정리하며 미안함과 죄책감을 되새기면, 분노의 감정도 상쇄된다.<br>이런 감정 상쇄 메커니즘은 의외로 큰 감정조절 효과를 만들어낸다.">
+                <div>10.<br>감정 조절력을 더 키우고 싶다면?</div>
+            </div>
+            <div class="popup-card" data-answer="내가 나에게 줄 수 있는 선물을 만들어보자.<br>감동적인 영상을 보며 마음껏 울기, 좋아하는 음악과 함께 걷기, 방 청소로 머릿속 정리하기 등<br>내면을 청량하게 만드는 루틴을 정리해보자.<br>스트레스 해소는 생각보다 이런 작은 일상에서부터 시작된다.">
+                <div>11.<br>나를 어떻게 가꿀 수 있을까?</div>
+            </div>
+            <div class="popup-card" data-answer="기다려주는 것이 가장 큰 배려다.<br>HSP인 사람은 자신이 예민하다는 걸 스스로 자각해야 감정 루틴을 만들 수 있다.<br>입을 꾹 다물고 있는 그들을 억지로 열려고 하지 말고, 천천히 기다려주자.<br>때로는 아무 말도 하지 않는 것이 최고의 존중이 될 수 있다.">
+                <div>12.<br>주변에 예민한 사람이 있다면?</div>
+            </div>
+        </div>
+        <div id="popupOverlay" class="popup-overlay"></div>
+        <div id="popupContent" class="popup-content">
+            <button id="popupClose" class="popup-close">×</button>
+            <div id="popupText"></div>
+        </div>
+    </div>
+</section>
+    <section class="container">
+        <div class="step" id="step4">
+            <div>
+                <h2 class="recommend-title">HSP를 위한 컨텐츠</h2>
+                <div class="recommend-list">
+                  <a href="movie.html" class="recommend-item">
+                    <div class="recommend-label">눌러보세요</div>
+                  </a>
+                </div>
+              </div>
+        </div>
+    </div>
+    </section>
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-title">예민한 우리를 위하여</div>
+        <div class="footer-text">
+            당신의 감수성은 약점이 아닌 특별한 선물입니다.<br>
+            세상을 더 깊이 이해하고, 더 풍부한 경험을 할 수 있게 해주는 소중한 능력입니다.
+        </div>
+        <div class="footer-copyright">
+            © 2024 To HSP. Hanjoonhee. All rights reserved.
+        </div>
+    </div>
+</footer>
+<script>
+    // 오디오 자동재생 정책 대응
+    const audio = document.getElementById('bg-audio');
+    const btn = document.getElementById('audio-unmute-btn');
+    function tryUnmute() {
+        audio.muted = false;
+        audio.play();
+        btn.style.display = 'none';
+    }
+    // 자동재생 실패 시 버튼 노출
+    audio.onplay = () => { btn.style.display = 'none'; };
+    audio.onpause = () => { btn.style.display = 'block'; };
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            if (audio.paused || audio.muted) {
+                btn.style.display = 'block';
+            }
+        }, 1000);
+    });
+    btn.addEventListener('click', tryUnmute);
+</script>
+<!-- 마지막에 이거 있어야 함 -->
+<script>
+    const cards = document.querySelectorAll('.popup-card');
+    const popupContent = document.getElementById('popupContent');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupText = document.getElementById('popupText');
+    const popupClose = document.getElementById('popupClose');
+  
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const answer = card.dataset.answer;
+        popupText.innerHTML = answer.replace(/\n/g, '<br>');
+        popupContent.classList.add('show');
+        popupOverlay.classList.add('show');
+        card.classList.add('viewed');
+      });
+    });
+  
+    popupClose.addEventListener('click', () => {
+      popupContent.classList.remove('show');
+      popupOverlay.classList.remove('show');
+    });
+  
+    popupOverlay.addEventListener('click', () => {
+      popupContent.classList.remove('show');
+      popupOverlay.classList.remove('show');
+    });
+  </script>
+</body>
+</html> 
