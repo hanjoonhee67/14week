@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예민한 우리를 위하여 - HSP 이해하기</title>
+    <style>
+        @font-face {
+            font-family: 'MapoGoldenPier';
+            src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #007A5Df;
+            color: #007A5D;
+            font-family: 'MapoGoldenPier', sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            z-index: 100;
+            padding: 1.3rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-brand {
+            color: #007A5D;
+            font-size: 1.2rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-decoration: none;
+            margin-left: 3rem;
+            font-weight: bold;
+            padding: 0;
+            border-radius: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar ul {
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0 3rem 0 0;
+        }
+        .navbar a {
+            color: #007A5D;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar a:hover {
+            background: #007A5D;
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            color: #007A5D;
+        }
+
+        section {
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+        }
+
+        .step {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 6rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 32px 0 rgba(255,255,255,0.7), 0 0 8px 0 rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+            z-index: 2;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .chat-question {
+            align-self: flex-start;
+            background-color: #f0f0f0;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 20px 5px;
+            max-width: 70%;
+            font-size: 1.3rem;
+            color: #007A5D;
+            opacity: 0;
+            transform: translateX(-10px);
+            animation: slideInLeft 5s ease forwards infinite;
+            animation-direction: alternate;
+            animation-delay: 0s;
+        }
+
+        .chat-answer {
+            align-self: flex-end;
+            background-color: #007A5D;
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 5px 20px;
+            max-width: 80%;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateX(10px);
+            animation: slideInRight 5s ease forwards infinite;
+            animation-direction: alternate;
+            animation-delay: 1s;
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+        }
+
+        @keyframes slideInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+            10% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+        }
+
+        .step h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #007A5D;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #007A5D;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guidelines {
+            list-style-type: none;
+            text-align: center;
+            padding-left: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guidelines li {
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+            position: relative;
+            color: #007A5D;
+            font-family: 'MapoGoldenPier', sans-serif;
+            text-align: center;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guidelines li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+        }
+        .step1bg {
+            background-color: #00241b;
+            background-image: url('what2.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            position: relative;
+        }
+
+        .step1bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('circleleft.gif');
+            background-size: 40% auto;
+            background-position: left center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        .step1bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('circleright.gif');
+            background-size: 40% auto;
+            background-position: right center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        .test-section {
+            margin-top: 4rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 32px 0 rgba(255,255,255,0.7), 0 0 8px 0 rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.08);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .test-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('circleleft.gif');
+            background-size: contain;
+            background-position: left center;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .test-section h3,
+        .test-items,
+        .test-result {
+            position: relative;
+            z-index: 1;
+        }
+
+        .test-section h3 {
+            color: #007A5D;
+            font-size: 1.8rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .test-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .test-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .test-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2.5px solid #007A5D;
+            border-radius: 4px;
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            background: #fff;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .test-checkbox.checked {
+            background: #e6f7f3;
+            border-color: #00b894;
+            animation: checkbox-pop 0.25s cubic-bezier(.4,1.4,.6,1) 1;
+        }
+
+        .test-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            color: #00b894;
+            font-size: 20px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            animation: checkmark-pop 0.25s cubic-bezier(.4,1.4,.6,1) 1;
+        }
+
+        @keyframes checkbox-pop {
+            0% { box-shadow: 0 0 0 0 #00b89433; }
+            60% { box-shadow: 0 0 0 8px #00b89433; }
+            100% { box-shadow: 0 0 0 0 #00b89400; }
+        }
+
+        @keyframes checkmark-pop {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            60% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .test-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #333;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .test-items {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .test-result {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #007A5D;
+            color: #007A5D;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .title-text {
+            font-size: 6rem;
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 1.4;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+            font-weight: normal;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 32px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.7);
+            font-family: 'Arita-buri-SemiBold', sans-serif;
+        }
+
+        .audio-fixed {
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 0.2rem 0.5rem;
+        }
+        .audio-unmute-btn {
+            position: absolute;
+            right: 2rem;
+            top: 6rem;
+            background: #fff;
+            color: #007A5D;
+            border: 1.5px solid #007A5D;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-family: 'MapoGoldenPier', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            display: none;
+        }
+
+        .guide-btn {
+            display: inline-block;
+            background: #007A5D;
+            color: #fff;
+            font-family: 'MapoGoldenPier', sans-serif;
+            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: background 0.2s, color 0.2s, opacity 0.3s;
+            opacity: 0.95;
+        }
+        .guide-btn:hover {
+            background: #005A47;
+            color: #fff;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">예민한 우리를 위하여</a>
+        <ul>
+            <li><a href="index.html#start">시작</a></li>
+            <li><a href="main.html#step2">기본 설명</a></li>
+            <li><a href="guideline.html">지침서</a></li>
+            <li><a href="#step4">마지막</a></li>
+        </ul>
+    </nav>
+    <section class="step1bg">
+        <audio src="windsound.mp3" autoplay loop controls muted class="audio-fixed" id="bg-audio"></audio>
+        <button class="audio-unmute-btn" id="audio-unmute-btn">사운드 켜기</button>
+        <div class="container">
+            <div class="step" id="step2">
+                <h2>HSP란?</h2>
+                <div class="chat-container">
+                    <div class="chat-question">HSP가 뭔가요?</div>
+                    <div class="chat-answer">
+                        HSP는 Highly Sensitive Person의 약자로,<br> 
+                        감각적·정서적으로 매우 예민한 기질을 타고난 <br> 사람을 뜻합니다.
+                        이들은 빛, 소리, 냄새, 통증과 같은 자극에 민감하게 반응하며, 타인의 감정이나 분위기에도 쉽게<br> 영향을 받습니다. 전체 인구의 약 15~20%가 HSP에 <br> 해당하며, 
+                        이는 정신질환이 아닌 하나의 기질적인 특성으로 알려져 있습니다.
+                    </div>
+                </div>
+                <div class="test-section">
+                    <h3>HSP 자가진단 테스트</h3>
+                    <div class="test-items">
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">01) 강한 감각자극에 쉽게 피곤해진다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">02) 나는 주위에 있는 미묘한 것들을 인식하는 것 같다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">03) 다른 사람들의 기분에 영향을 받는다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">04) 통증에 매우 예민하다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">05) 바쁘게 보낸 날은 침대나 어두운 방 또는 혼자 있을 수 있는 장소로 숨어 들어가 자극을 진정시켜야 한다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">06) 카페인에 특히 민감하다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">07) 밝은 빛, 강한 냄새, 거친 천, 또는 가까이에서 들리는 사이렌 소리 같은 것들에 의해 쉽게 피곤해진다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">08) 풍요롭고 복잡한 내면세계를 갖고 있다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">09) 미술이나 음악에 깊은 감동을 받는다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">10) 가끔 너무 정신이 없으면 주위 자극을 내가 스스로 차단해야 한다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">11) 양심적이다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">13) 깜짝깜짝 놀란다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">14) 짧은 시간 내에 많은 일을 해야 할 때 당황한다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">15) 사람들이 불편해할 때 어떻게 하면 좀 더 편안하게 해줄 수 있는지 안다. (조명이나 좌석 배치를 바꾸는 것 등)</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">16) 사람들이 한꺼번에 너무 많은 것을 요구하면 짜증이 난다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">17) 실수를 저지르거나 뭔가 잊지 않으려 노력한다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">18) 폭력적인 영화와 텔레비전 장면을 애써 피한다</div>
+                        </div>
+                    
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">19) 배가 고프면 강한 내부 반응이 일어나면서 집중이 안 되고 기분이 저하된다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">20) 생활의 변화로 인해 동요하는 편이다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">21) 섬세하고 미묘한 향기, 맛, 소리, 예술 작품을 감상하고 즐긴다</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">22) 주변에서 많은 일들이 일어나고 있을 때 불쾌함을 느낀다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">23) 내 생활을 정돈해서 소란스럽거나 당황하게 되는 상황을 피하는 것을 우선으로 한다.</div>
+                        </div>
+                
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">24) 일을 할 때 경쟁을 해야만 한다거나 누가 지켜보고 있으면 불안하거나 소심해져서 평소보다 훨씬 못한다.</div>
+                        </div>
+                        <div class="test-item">
+                            <div class="test-checkbox"></div>
+                            <div class="test-text">25) 어렸을 때 부모님과 선생님들로부터 예민하거나 숫기가 없다는 말을 들었다.</div>
+                        </div>
+                    </div>
+                    <div class="test-count" style="text-align:center; color:#007A5D; font-weight:bold; margin-top:1.5rem; font-size:1.1rem;">현재 0개 체크하셨습니다.</div>
+                    <div class="test-result">
+                        14개 이상이 해당된다면 ‘HSP’일 가능성이 높습니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div style="text-align:center; margin: 4rem 0 2rem 0;">
+            <div style="font-size:3rem; color:#007A5D; font-family:'MapoGoldenPier',sans-serif; font-weight:bold; margin-top: 10rem;margin-bottom:9rem;">예민한 우리는 앞으로 어떻게 해야할까요?</div>
+            <a href="guideline.html" class="guide-btn">지침서 보기</a>
+        </div>
+    </section>
+    <script>
+        document.querySelectorAll('.test-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                const checkedCount = document.querySelectorAll('.test-checkbox.checked').length;
+                document.querySelector('.test-count').textContent = `현재 ${checkedCount}개 체크하셨습니다.`;
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkedCount = document.querySelectorAll('.test-checkbox.checked').length;
+            document.querySelector('.test-count').textContent = `현재 ${checkedCount}개 체크하셨습니다.`;
+        });
+        // 오디오 자동재생 정책 대응
+        const audio = document.getElementById('bg-audio');
+        const btn = document.getElementById('audio-unmute-btn');
+        function tryUnmute() {
+            audio.muted = false;
+            audio.play();
+            btn.style.display = 'none';
+        }
+        // 자동재생 실패 시 버튼 노출
+        audio.onplay = () => { btn.style.display = 'none'; };
+        audio.onpause = () => { btn.style.display = 'block'; };
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                if (audio.paused || audio.muted) {
+                    btn.style.display = 'block';
+                }
+            }, 1000);
+        });
+        btn.addEventListener('click', tryUnmute);
+    </script>
+</body>
+</html> 
